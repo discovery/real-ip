@@ -4,7 +4,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"net"
 	"net/http"
-	"testing"
+	. "testing"
 )
 
 var remote_addr, _ = NewRemoteAddr([]string{
@@ -15,13 +15,13 @@ var remote_addr, _ = NewRemoteAddr([]string{
 	"fc00::/7",
 })
 
-func TestUtils_get_remote_addr_net_empty_request(t *testing.T) {
+func TestUtils_get_remote_addr_net_empty_request(t *T) {
 	req := &http.Request{}
 	_, err := remote_addr.GetIP(req)
 	assert.NotNil(t, err)
 }
 
-func TestUtils_get_remote_addr_net_invalid_remote_addr_bad_ip_address(t *testing.T) {
+func TestUtils_get_remote_addr_net_invalid_remote_addr_bad_ip_address(t *T) {
 	req := &http.Request{
 		RemoteAddr: "1.2.3.41234:1234",
 		Header: http.Header{
@@ -32,7 +32,7 @@ func TestUtils_get_remote_addr_net_invalid_remote_addr_bad_ip_address(t *testing
 	assert.NotNil(t, err)
 }
 
-func TestUtils_get_remote_addr_net_invalid_remote_addr_missing_port(t *testing.T) {
+func TestUtils_get_remote_addr_net_invalid_remote_addr_missing_port(t *T) {
 	req := &http.Request{
 		RemoteAddr: "1.2.3.4",
 		Header: http.Header{
@@ -43,7 +43,7 @@ func TestUtils_get_remote_addr_net_invalid_remote_addr_missing_port(t *testing.T
 	assert.NotNil(t, err)
 }
 
-func TestUtils_get_remote_addr_net_invalid_remote_addr_missing_ip_address(t *testing.T) {
+func TestUtils_get_remote_addr_net_invalid_remote_addr_missing_ip_address(t *T) {
 	req := &http.Request{
 		RemoteAddr: ":1234",
 		Header: http.Header{
@@ -54,7 +54,7 @@ func TestUtils_get_remote_addr_net_invalid_remote_addr_missing_ip_address(t *tes
 	assert.NotNil(t, err)
 }
 
-func TestUtils_GetClientIP_empty_x_forwarded_for(t *testing.T) {
+func TestUtils_GetClientIP_empty_x_forwarded_for(t *T) {
 	req := &http.Request{
 		RemoteAddr: "1.2.3.4:1234",
 		Header: http.Header{
@@ -65,7 +65,7 @@ func TestUtils_GetClientIP_empty_x_forwarded_for(t *testing.T) {
 	assert.Equal(t, net.ParseIP("1.2.3.4"), res)
 }
 
-func TestUtils_GetClientIP_invalid1_x_forwarded_for(t *testing.T) {
+func TestUtils_GetClientIP_invalid1_x_forwarded_for(t *T) {
 	req := &http.Request{
 		RemoteAddr: "1.2.3.4:1234",
 		Header: http.Header{
@@ -76,7 +76,7 @@ func TestUtils_GetClientIP_invalid1_x_forwarded_for(t *testing.T) {
 	assert.Equal(t, net.ParseIP("1.2.3.4"), res)
 }
 
-func TestUtils_GetClientIP_invalid2_x_forwarded_for(t *testing.T) {
+func TestUtils_GetClientIP_invalid2_x_forwarded_for(t *T) {
 	req := &http.Request{
 		RemoteAddr: "1.2.3.4:1234",
 		Header: http.Header{
@@ -87,7 +87,7 @@ func TestUtils_GetClientIP_invalid2_x_forwarded_for(t *testing.T) {
 	assert.Equal(t, net.ParseIP("4.4.4.4"), res)
 }
 
-func TestUtils_GetClientIP_invalid3_x_forwarded_for(t *testing.T) {
+func TestUtils_GetClientIP_invalid3_x_forwarded_for(t *T) {
 	req := &http.Request{
 		RemoteAddr: "1.2.3.4:1234",
 		Header: http.Header{
@@ -98,7 +98,7 @@ func TestUtils_GetClientIP_invalid3_x_forwarded_for(t *testing.T) {
 	assert.Equal(t, net.ParseIP("1.2.3.4"), res)
 }
 
-func TestUtils_GetClientIP_x_forwarded_for_test1(t *testing.T) {
+func TestUtils_GetClientIP_x_forwarded_for_test1(t *T) {
 	req := &http.Request{
 		RemoteAddr: "1.2.3.4:1234",
 		Header: http.Header{
@@ -109,7 +109,7 @@ func TestUtils_GetClientIP_x_forwarded_for_test1(t *testing.T) {
 	assert.Equal(t, net.ParseIP("1.2.3.4"), res)
 }
 
-func TestUtils_GetClientIP_x_forwarded_for_test2(t *testing.T) {
+func TestUtils_GetClientIP_x_forwarded_for_test2(t *T) {
 	req := &http.Request{
 		RemoteAddr: "1.2.3.4:1234",
 		Header: http.Header{
@@ -120,7 +120,7 @@ func TestUtils_GetClientIP_x_forwarded_for_test2(t *testing.T) {
 	assert.Equal(t, net.ParseIP("4.4.4.4"), res)
 }
 
-func TestUtils_GetClientIP_x_forwarded_for_test3(t *testing.T) {
+func TestUtils_GetClientIP_x_forwarded_for_test3(t *T) {
 	req := &http.Request{
 		RemoteAddr: "1.2.3.4:1234",
 		Header: http.Header{
@@ -131,7 +131,7 @@ func TestUtils_GetClientIP_x_forwarded_for_test3(t *testing.T) {
 	assert.Equal(t, net.ParseIP("4.4.4.4"), res)
 }
 
-func TestUtils_GetClientIP_x_forwarded_for_test4(t *testing.T) {
+func TestUtils_GetClientIP_x_forwarded_for_test4(t *T) {
 	req := &http.Request{
 		RemoteAddr: "1.2.3.4:1234",
 		Header: http.Header{
@@ -142,7 +142,7 @@ func TestUtils_GetClientIP_x_forwarded_for_test4(t *testing.T) {
 	assert.Equal(t, net.ParseIP("4.4.4.4"), res)
 }
 
-func TestUtils_GetClientIP_x_forwarded_for_test5(t *testing.T) {
+func TestUtils_GetClientIP_x_forwarded_for_test5(t *T) {
 	req := &http.Request{
 		RemoteAddr: "1.2.3.4:1234",
 		Header: http.Header{
